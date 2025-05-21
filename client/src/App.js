@@ -1,19 +1,32 @@
-import { useEffect, useState } from 'react';
 import './App.css';
+import { useState } from 'react';
+import { auth, provider } from './firebase/config';
+import { signInWithPopup } from 'firebase/auth';
 
 function App() {
-  const [apiMessage, setApiMessage] = useState('');
+  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    fetch('/api/test')
-      .then(res => res.json())
-      .then(data => setApiMessage(data.message));
-  }, []);
+  const handleLogin = () => {
+    signInWithPopup(auth, provider)
+      .then(result => {
+        setUser(result.user);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
 
   return (
     <div className="App">
       <h1>CivicEye - Smart Grievance Reporting</h1>
-      <p>Backend says: {apiMessage}</p>
+      {!user ? (
+        <button onClick={handleLogin}>Login with Google</button>
+      ) : (
+        <div>
+          <p>Welcome, {user.displayName}!</p>
+          <img src={user.photoURL} alt="profile" width="80" />
+        </div>
+      )}
     </div>
   );
 }
