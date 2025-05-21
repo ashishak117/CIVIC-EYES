@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Routes
 app.get('/api/test', (req, res) => {
-  res.json({ message: 'API is working!' });
+  res.json({ message: 'API is working! YEAHHHHHHHHHHHHHHHH BOIIIIIIIIIIIIIIIIIIIII' });
 });
 
 // Connect to MongoDB
